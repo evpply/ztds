@@ -1,0 +1,26 @@
+<div>
+  <button type="submit"  class="btn btn-primary" ng-click="save()">保存</button>
+  <button type="submit" class="btn btn-default" ng-click="cancel()">取消</button>
+  <a class="btn btn-success" ng-click="reportExport()">导出</a>
+</div>
+
+<hr />
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#research" data-toggle="tab">表(一)：调查研究工作情况</a></li>
+  <li><a href="#outlay" data-toggle="tab">表(二)：勤俭节约情况</a></li>
+  <li><a href="#conferenceFile" data-toggle="tab">表(三)：召开会议及发文情况</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="research">
+    <div class="gridStyle" ng-grid="researchOptions"></div>
+  </div>
+
+  <div class="tab-pane" id="outlay">
+    <div class="gridStyle" ng-grid="outlayOptions"></div>
+  </div>
+
+  <div class="tab-pane" id="conferenceFile">
+    <div class="gridStyle" ng-grid="conferenceFileOptions"></div>
+  </div>
+</div>
