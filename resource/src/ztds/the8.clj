@@ -19,8 +19,7 @@
   (fn [ctx]
     (let [resource (keywordize-keys (get-in ctx [:request :body]))
           dist (assoc resource
-                 :submitDate (str (time/today))
-                 :_id "01")]
+                 :submitDate (str (time/today)))]
       (db/upsert "the8" dist))))
 
 (defn query [id]

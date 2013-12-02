@@ -2,33 +2,25 @@
 //dependence: ztds.js
 //dependence: ../report/the8.js
 
-ztds.module.index = angular.module('ztds.module.index',[
+ztds.module.index = angular.module('ztds.module.index', [
   'angularBootstrapNavTree',
   'ngRoute',
   'services.breadcrumbs']);
 
-ztds.module.index.controller('IndexCtrl',function($scope,$location,breadcrumbs){
-  $scope.breadcrumbs = breadcrumbs;
+ztds.module.index.controller('IndexCtrl',function($scope,$location,breadcrumbs,$http){
+  $http.get(ztds.resource.department).success(function(department){
+    ztds.user.department = department;
+  });
 
-  $scope.navTreeHandler = function(branch) {
+  $scope.breadcrumbs = breadcrumbs;
+  $scope.navTreeHandler = function (branch){
     var _ref;
     $location.path(branch.url);
     if ((_ref = branch.data) != null ? _ref.description : void 0) {
       return $scope.output += '(' + branch.data.description + ')';
     }
   };
-
-  $scope.navTreeData = [
-    {
-      label: '报表',
-      children: [
-        {
-          url:'/report/the8/all',
-          label: '八项规定'
-        }
-      ]
-    }
-  ];
+  $scope.navTreeData = ztds.config.navTree;
 
 });
 
