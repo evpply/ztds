@@ -4,78 +4,76 @@ ztds.module.report.the8 = angular.module('ztds.module.report.the8',
                                          ['ngGrid',
                                           'ngResource',
                                           'chieffancypants.loadingBar']);
-var the8ColumnDef = function(def){
-  var result = [];
+ztds.module.report.the8.controller('The8DetailCtrl', function($scope,$location,$http,$timeout) {
+  // $http.get(ztds.resource.the8 + '/' + ztds.user.department).success(function(result){
+  //   $scope.research  = result.research;
+  //   $scope.research.push({});
+  //   $scope.outlay = result.outlay;
+  //   $scope.outlay.push({});
+  //   $scope.conferenceFile = result.conferenceFile;
+  //   $scope.conferenceFile.push({});
+  // });
+
+  var addBasicOptions = function(data,columnDefs) {
+     return { data: data,
+              width: '100%',
+              enableCellSelection: true,
+              enableRowSelection: false,
+              enableColumnResize:true,
+              beforeSelectionChange: function(rowItem,event){
+                if(rowItem.rowIndex===$scope[data].length-1) {
+                  $scope[data].push({});
+                }
+                return true;
+              },
+              columnDefs: columnDefs };
+  };
   var numberTemplate = '<input type="number" ng-model="COL_FIELD" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" />';
   var textTemplate =  '<input ng-model="COL_FIELD" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" />';
-  var myCellTemplate ='<div style="border-bottom:1px solid rgb(212,212,212);" class="ngCellText"'+
-                     ' ng-class="col.colIndex()"><span ng-cell-text>{{COL_FIELD}}</span></div>';
-  for (var i in def){
-    result.push({field:          def[i][0],
-                 displayName:    def[i][1],
-                 enableCellEdit: def[i][2],
-                 width:          def[i][3],
-                 cellTemplate: myCellTemplate,
-                 editableCellTemplate: (def[i][4] == true)? textTemplate : numberTemplate
-                });
-  }
-  return result;
-};
+  var cellTemplate = '<div style="border-bottom:1px solid rgb(212,212,212);" class="ngCellText"'+
+                     'ng-class="col.colIndex()"><span ng-cell-text>{{COL_FIELD}}</span></div>';
+  var ngGridColumnDef = function(field){
 
-ztds.module.report.the8.controller('The8DetailCtrl', function($scope,$location,$http,$timeout) {
-  $http.get(ztds.resource.the8 + '/' + ztds.user.department).success(function(result){
-    $scope.research  = result.research;
-    $scope.research.push({});
-    $scope.outlay = result.outlay;
-    $scope.outlay.push({});
-    $scope.conferenceFile = result.conferenceFile;
-    $scope.conferenceFile.push({});
-  });
+    for (var i in field) {
+      field[i].enableCellEdit = true;
+      field[i].cellTemplate = cellTemplate;
+
+      switch(field[i].type)
+      {
+      case "text":
+        field[i].editableCellTemplate = textTemplate;
+        break;
+      case "number":
+        field[i].editableCellTemplate = numberTemplate;
+        break;
+      default:
+        break;
+      }
+    }
+
+    return field;
+  };
+  var mergeConferenceAndFile = function(conference, file){
+    for (var i in file){
+      if (file[i].field == "date"){
+        file.splice(i,1);
+        break;
+      }
+    }
+    return conference.concat(file);
+  };
+  var setOptions = function(def){
+    $scope.researchOptions = addBasicOptions('research', ngGridColumnDef(def.fields.research));
+    $scope.outlayOptions = addBasicOptions('outlay', ngGridColumnDef(def.fields.outlay));
+    $scope.conferenceAndFileOptions =
+      addBasicOptions('conferenceAndFile', ngGridColumnDef(mergeConferenceAndFile(def.fields.conference, def.fields.file)));
+  };
+  $.ajax({url:'http://localhost/resource/the8-entity-definition',
+          async:false,
+          success:setOptions});
   $scope.research = [{}];
-
-  $scope.researchOptions = {
-    data: 'research',
-    width: '100%',
-    enableCellSelection: true,
-    enableRowSelection: false,
-    enableColumnResize:true,
-    beforeSelectionChange:function(a1){
-      if(a1.rowIndex===$scope.research.length-1){
-        $scope.research.push({});
-      }
-      return true;
-    },
-    columnDefs: the8ColumnDef(ztds.config.cellDef.research)
-  };
-
-  $scope.outlayOptions = {
-    data: 'outlay',
-    width: '100%',
-    enableCellSelection: true,
-    enableRowSelection: false,
-    enableColumnResize: true,
-    beforeSelectionChange:function(a1){
-      if(a1.rowIndex===$scope.outlay.length-1){
-        $scope.outlay.push({});
-      }
-      return true;
-    },
-    columnDefs: the8ColumnDef(ztds.config.cellDef.outlay)
-  };
-
-  $scope.conferenceFileOptions = {
-    data: 'conferenceFile',
-    width: '100%',
-    enableCellSelection: true,
-    enableRowSelection: false,
-    beforeSelectionChange:function(a1){
-      if(a1.rowIndex===$scope.conferenceFile.length-1){
-        $scope.conferenceFile.push({});
-      }
-      return true;
-    },
-    columnDefs: the8ColumnDef(ztds.config.cellDef.conferenceFile)
-  };
+  $scope.outlay = [{}];
+  $scope.conferenceAndFile = [{}];
 
   var removeEmpty = function(arr){
     for(var i in arr) {
@@ -86,9 +84,6 @@ ztds.module.report.the8.controller('The8DetailCtrl', function($scope,$location,$
     return arr;
   };
 
-  $scope.reportExport = function(){
-    $location.path();
-  };
   $scope.cancel = function(){
     $location.path('/');
   };

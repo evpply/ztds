@@ -8,4 +8,5 @@
   (-> (assemble-routes)
       (middleware/wrap-json-body)
       (middleware/wrap-json-response)
-      (wrap-basic-authentication user/authenticated?)))
+      ;;(wrap-basic-authentication user/authenticated?)
+      ))
