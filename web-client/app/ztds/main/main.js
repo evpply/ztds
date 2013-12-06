@@ -8,6 +8,11 @@ ztds.module.index = angular.module('ztds.module.index', [
   'services.breadcrumbs']);
 
 ztds.module.index.controller('IndexCtrl',function($scope,$location,breadcrumbs,$http){
+
+  //
+  $.ajax({url:ztds.resource.department,
+          async:false,
+          success:function(){}});
   $http.get(ztds.resource.department).success(function(department){
     ztds.user.department = department;
   });
@@ -24,7 +29,7 @@ ztds.module.index.controller('IndexCtrl',function($scope,$location,breadcrumbs,$
 
 });
 
-ztds.module.index.controller('MainCtrl', function($scope){
+ztds.module.index.controller('MainCtrl', function($scope,$http){
 
 });
 

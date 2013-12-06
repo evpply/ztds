@@ -1,6 +1,6 @@
 (ns ztds.server
   (:use [ztds.resources :only [assemble-routes]]
-        [ztds.user :as user]
+        [ztds.entity.user :as user]
         [ring.middleware.basic-authentication])
   (:require [ring.middleware.json :as middleware]))
 
@@ -8,5 +8,5 @@
   (-> (assemble-routes)
       (middleware/wrap-json-body)
       (middleware/wrap-json-response)
-      ;;(wrap-basic-authentication user/authenticated?)
+      (wrap-basic-authentication user/authenticated?)
       ))

@@ -1,4 +1,4 @@
-(ns ztds.user
+(ns ztds.entity.user
   (:use [ztds.db :as db]
         [clojure.data.codec.base64 :as base64]
         [clojure.string :only [trim split]]))
@@ -17,17 +17,18 @@
   [^String string]
   (byte-transform base64/encode string))
 
-(defn query-department [user]
- (:department (db/query-one "user" {:_id user})))
+(defn- query-department [user]
+ (:department (db/query-one "user" user)))
 
 (defn department []
   (fn [ctx]
     (let [http-basic-authoriztion (get (get-in ctx [:request :headers]) "authorization")]
      (query-department
       (first
-       (split (decode-base64 (trim
-                              (re-find #"\s.*" http-basic-authoriztion)))
+       (split (decode-base64
+               (trim
+                (re-find #"\s.*" http-basic-authoriztion)))
               #":"))))))
 
 (defn authenticated? [name pass]
-  (not (nil? (db/query-one "user" {:_id name :password pass}))))
+  (not (nil? (db/query "user" {:_id name :password pass}))))
