@@ -10,15 +10,18 @@ ztds.module.index = angular.module('ztds.module.index', [
 ztds.module.index.controller('IndexCtrl',function($scope,$location,breadcrumbs,$http){
 
   //
-  $.ajax({url:ztds.resource.department,
+  $.ajax({url:ztds.resource.user,
           async:false,
           success:function(){}});
-  $http.get(ztds.resource.department).success(function(department){
-    ztds.user.department = department;
+
+  $http.get(ztds.resource.user).success(function(user){
+    ztds.user = user;
+    $scope.user = user;
   });
 
+
   $scope.breadcrumbs = breadcrumbs;
-  $scope.navTreeHandler = function (branch){
+  $scope.navTreeHandler = function (branch) {
     var _ref;
     $location.path(branch.url);
     if ((_ref = branch.data) != null ? _ref.description : void 0) {
@@ -26,7 +29,6 @@ ztds.module.index.controller('IndexCtrl',function($scope,$location,breadcrumbs,$
     }
   };
   $scope.navTreeData = ztds.config.navTree;
-
 });
 
 ztds.module.index.controller('MainCtrl', function($scope,$http){

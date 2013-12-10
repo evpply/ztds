@@ -1,4 +1,4 @@
-var The8ReportCtrl = function($scope,$location,$http){
+var The8ChartCtrl = function($scope,$location,$http){
   var myChart = function (date,outlay,outlayLast,file,fileLast){
     return {
       chart: {zoomType: 'xy'},
@@ -20,7 +20,6 @@ var The8ReportCtrl = function($scope,$location,$http){
     };
   };
 
-
   $http.get(ztds.resource.the8Report).success(function(data){
     var month = [],
         file = [],
@@ -36,6 +35,10 @@ var The8ReportCtrl = function($scope,$location,$http){
 
     $('#lineCharts').highcharts(myChart(month,outlay,[],file,[]));
   });
+
+  $scope.toGrid = function(){
+   $location.path('/report/the8/list');
+  };
 };
 
-angular.module('The8ReportCtrl',[]).controller('The8ReportCtrl',The8ReportCtrl);
+angular.module('The8ChartCtrl',[]).controller('The8ChartCtrl',The8ChartCtrl);

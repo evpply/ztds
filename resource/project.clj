@@ -9,7 +9,7 @@
                  [ring-basic-authentication "1.0.2"]
                  [clj-time "0.6.0"]
                  [org.clojure/data.codec "0.1.0"]
-;;                 [incanter "1.5.4"]
+                 [org.clojure/algo.generic "0.1.1"]
                  [dk.ative/docjure "1.6.0"]
                  ]
   :plugins [[lein-ring "0.8.8"]]

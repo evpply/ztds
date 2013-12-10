@@ -17,18 +17,26 @@
   [^String string]
   (byte-transform base64/encode string))
 
-(defn- query-department [user]
- (:department (db/query-one "user" user)))
+(defn- query-user [user]
+  (let [user (db/query-one "user" user)
+        department (db/query-one "department" (user :department))]
+    (assoc {}
+      :name (user :name)
+      :departmentName (department :name)
+      :department (department :_id))))
 
-(defn department []
+
+(defn current []
   (fn [ctx]
-    (let [http-basic-authoriztion (get (get-in ctx [:request :headers]) "authorization")]
-     (query-department
+    (let [auth (get (get-in ctx [:request :headers]) "authorization")]
+     (query-user
       (first
        (split (decode-base64
                (trim
-                (re-find #"\s.*" http-basic-authoriztion)))
-              #":"))))))
+                (re-find #"\s.*" auth))) #":"))))))
+
+;; (defn authenticated? [name pass]
+;;   (not (nil? (db/query "user" {:_id name :password pass}))))
 
 (defn authenticated? [name pass]
-  (not (nil? (db/query "user" {:_id name :password pass}))))
+  (boolean (db/query "user" {:_id name :password pass})))

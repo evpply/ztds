@@ -1,35 +1,34 @@
 var The8DetailCtrl = function($scope,$location,$http,$timeout) {
-  var addBasicOptions = function(data,columnDefs) {
-     return { data: data,
-              width: '100%',
-              enableCellSelection: true,
-              enableRowSelection: false,
-              enableColumnResize:true,
-              beforeSelectionChange: function(rowItem,event){
-                if(rowItem.rowIndex===$scope[data].length-1) {
-                  $scope[data].push({});
-                }
-                return true;
-              },
-              columnDefs: columnDefs };
+  //grid def start
+  var grid = function(data,colDef) {
+    var f = function(x){
+      var t = x.split('.');
+      return $scope[t[0]][t[1]];
+    };
+    return { data: data,
+             width: '100%',
+             enableCellSelection: true,
+             enableRowSelection: false,
+             enableColumnResize:true,
+             beforeSelectionChange: function(rowItem,event){
+               if(rowItem.rowIndex===f(data).length-1) {
+                 f(data).push({});
+               }
+               return true;
+             },
+             columnDefs: colDef };
   };
-  var numberTemplate = '<input type="number" ng-model="COL_FIELD" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" />';
-  var textTemplate =  '<input ng-model="COL_FIELD" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" />';
-  var cellTemplate = '<div style="border-bottom:1px solid rgb(212,212,212);" class="ngCellText"'+
-                     'ng-class="col.colIndex()"><span ng-cell-text>{{COL_FIELD}}</span></div>';
-  var ngGridColumnDef = function(field){
-
+  var col = function(field){
     for (var i in field) {
       field[i].enableCellEdit = true;
-      field[i].cellTemplate = cellTemplate;
-
+      field[i].cellTemplate = ztds.template.cell;
       switch(field[i].type)
       {
-      case "text":
-        field[i].editableCellTemplate = textTemplate;
+      case "date[yyyy-mm]":
+        field[i].editableCellTemplate = ztds.template.input.date;
         break;
       case "number":
-        field[i].editableCellTemplate = numberTemplate;
+        field[i].editableCellTemplate = ztds.template.input.number;
         break;
       default:
         break;
@@ -38,66 +37,40 @@ var The8DetailCtrl = function($scope,$location,$http,$timeout) {
 
     return field;
   };
-  var selectJSON = function(o,k){
-    var t = {};
-    for (var i in k){
-      t[k[i]] = o[k[i]];
-    }
-    return t;
-  };
-  var mergeConferenceAndFile = function(conference, file){
-    for (var i in file){
-      if (file[i].field == "date"){
-        file.splice(i,1);
-        break;
-      }
-    }
-    return conference.concat(file);
-  };
-  var mergeConferenceAndFileData = function(conference, file){
-
-    var t = [];
-    for (var i = 0; i < conference.length; i++) {
-      var o = {};
-      $.extend(o,conference[i],file[i]);
-      t.push(o);
-    }
-
-    return t;
+  var schema = function(def){
+    $scope.schema =  {
+      research: grid('the8.research',col(def.research)),
+      outlay: grid('the8.outlay',col(def.outlay)),
+      conference: grid('the8.conference',col(def.conference)),
+      file: grid('the8.file',col(def.file))
+    };
   };
 
-  var setOptions = function(def){
-    $scope.researchOptions = addBasicOptions('research', ngGridColumnDef(def.fields.research));
-    $scope.outlayOptions = addBasicOptions('outlay', ngGridColumnDef(def.fields.outlay));
-    $scope.conferenceAndFileOptions =
-      addBasicOptions('conferenceAndFile', ngGridColumnDef(mergeConferenceAndFile(def.fields.conference, def.fields.file)));
-  };
-  $.ajax({url:ztds.resource.the8Def,
+  $scope.dateOptions = ['2013-12','2013-11','2013-10','2013-09','2013-08','2013-07','2013-06','2013-05',
+                        '2013-04','2013-03','2013-02','2013-01',
+                        '2012-12','2012-11','2012-10','2012-09','2012-08','2012-07','2012-06','2012-05',
+                        '2012-04','2012-03','2012-02','2012-01'];
+
+  $.ajax({url:ztds.resource.the8Schema,
           async:false,
-          success:setOptions});
+          success:schema});
+  //grid def end
 
   var fillData = function(){
-    $http.get(ztds.resource.the8 + '/' + ztds.user.department).success(function(result){
-    $scope.research  = result.research;
-    $scope.research.push({});
-    $scope.outlay = result.outlay;
-    $scope.outlay.push({});
-    $scope.conferenceAndFile = mergeConferenceAndFileData(result.conference,result.file);
-    $scope.conferenceAndFile.push({});
-  });
+    $http.get(ztds.resource.the8 + '/' + ztds.user.department) .success(function(result){
+      $scope.the8 = (result == false) ? {research: [], outlay: [], conference: [], file: []} : result;
+
+      for (var i in $scope.the8){
+          $scope.the8[i].push({});
+      }
+    });
   };
   fillData();
-  var removeEmpty = function(arr){
-    var returnValue = [];
-    for (var i in arr){
-      !$.isEmptyObject(arr[i]) && returnValue.push(arr[i]);
-    }
-    return returnValue;
-  };
 
   $scope.cancel = function(){
     $location.path('/');
   };
+
   $scope.save = function(){
     $('#the8DetailSubmit').prop('disabled', true);
     var cfs = removeEmpty(this.conferenceAndFile);
@@ -106,15 +79,15 @@ var The8DetailCtrl = function($scope,$location,$http,$timeout) {
     var file = [];
     for (var i in cfs) {
       conference.push(selectJSON(cfs[i],["date","normalConference","videoConference","peoples","duration","expenses"]));
-      file.push(selectJSON(cfs[i],["date","num","length","newFiles","abolishFiles"]));
+      file.push(selectJSON(cfs[i],["date","num","nLength","newFiles","abolishFiles"]));
     }
 
     var data = {
       id: ztds.user.department,//ztds.user.department,
       research: removeEmpty(this.research),
       outlay: removeEmpty(this.outlay),
-      conference:conference,
-      file:file
+      conference:removeEmpty(conference),
+      file:removeEmpty(file)
     };
 
     $http.post(ztds.resource.the8, data)
@@ -123,8 +96,6 @@ var The8DetailCtrl = function($scope,$location,$http,$timeout) {
         $timeout(function(){
           $('#the8DetailSubmit').removeAttr('disabled').attr('class', 'btn btn-primary');
         },2000);
-
-        fillData();
       })
       .error(function(){
         $('#the8DetailSubmit').attr('class', 'btn btn-danger');
@@ -132,10 +103,6 @@ var The8DetailCtrl = function($scope,$location,$http,$timeout) {
           $('#the8DetailSubmit').removeAttr('disabled').attr('class', 'btn btn-primary');
         },2000);
       });
-};
-
-  $scope.getXls = function(){
-    window.location.href = ztds.resource.base + '/the8-xls/' + ztds.user.department;
   };
 
 };

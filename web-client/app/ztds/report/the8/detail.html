@@ -1,26 +1,32 @@
 <div>
   <button id="the8DetailSubmit" type="submit"  class="btn btn-primary" ng-click="save()">保存</button>
   <button type="submit" class="btn btn-default" ng-click="cancel()">取消</button>
-  <a class="btn btn-info" ng-click="getXls()">导出</a>
+  <a class="btn btn-info" disabled ng-click="getXls()">导出</a>
 </div>
 <hr />
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#research" data-toggle="tab">表(一)：调查研究工作情况</a></li>
-  <li><a href="#outlay" data-toggle="tab">表(二)：勤俭节约情况</a></li>
-  <li><a href="#conferenceFile" data-toggle="tab">表(三)：召开会议及发文情况</a></li>
+  <li class="active"><a href="#research" data-toggle="tab">调查研究工作情况</a></li>
+  <li><a href="#outlay" data-toggle="tab">勤俭节约情况</a></li>
+  <li><a href="#conference" data-toggle="tab">召开会议情况</a></li>
+  <li><a href="#file" data-toggle="tab">发文情况</a></li>
 </ul>
 
 <div class="tab-content">
   <div class="tab-pane active" id="research">
-    <div class="gridStyle" ng-grid="researchOptions"></div>
+    <div class="gridStyle" ng-grid="schema.research"></div>
   </div>
 
   <div class="tab-pane" id="outlay">
-    <div class="gridStyle" ng-grid="outlayOptions"></div>
+    <div class="gridStyle" ng-grid="schema.outlay"></div>
   </div>
 
-  <div class="tab-pane" id="conferenceFile">
-    <div class="gridStyle" ng-grid="conferenceAndFileOptions"></div>
+  <div class="tab-pane" id="conference">
+    <div class="gridStyle" ng-grid="schema.conference"></div>
   </div>
+
+    <div class="tab-pane" id="file">
+    <div class="gridStyle" ng-grid="schema.file"></div>
+  </div>
+
 </div>

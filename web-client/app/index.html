@@ -14,11 +14,13 @@
 
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css"/>
+
     <link rel="styleSheet" href="ztds/main/main.css">
     <link rel="styleSheet" href="components/angular-bootstrap-nav-tree/dist/abn_tree.css">
     <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
-
+    <link rel="stylesheet" href="bower_components/select2/select2.css">
     <link rel="stylesheet" href="ztds/report/the8/style.css">
     <!-- endbuild -->
   </head>
@@ -52,6 +54,7 @@
         <div class="navbar-header">
           <a href="../" class="navbar-brand">昭通地税纪检监察</a>
         </div>
+        <div class="nav navbar-nav navbar-right navbar-brand">{{user.departmentName}}|{{user.name}}</div>
       </div>
     </header>
 
@@ -101,7 +104,7 @@
     <!-- build:js scripts/modules.js -->
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="components/angular-bootstrap-nav-tree/dist/abn_tree_directive.js"></script>
 
     <script src="bower_components/ng-grid/build/ng-grid.js"></script>
@@ -111,14 +114,18 @@
     <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
     <script src="components/angular-breadcrumbs/angular-breadcrumbs.min.js"></script>
     <script src="components/ui.bootstrap/src/modal/modal.js"></script>
-
+    <script src="bower_components/select2/select2.js"></script>
+    <script src="bower_components/angular-ui-select2/src/select2.js"></script>
+    <script src="bower_components/angular-ui-date/src/date.js"></script>
 
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="ztds/main/ztds.js"></script>
+    <script src="ztds/util.js"></script>
     <script src="ztds/report/the8/detail.js"></script>
-    <script src="ztds/report/the8/report.js"></script>
+    <script src="ztds/report/the8/chart.js"></script>
+    <script src="ztds/report/the8/list.js"></script>
     <script src="ztds/report/the8/module.js"></script>
     <script src="ztds/main/main.js"></script>
     <!-- endbuild -->
