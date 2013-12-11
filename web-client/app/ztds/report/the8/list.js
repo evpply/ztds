@@ -1,78 +1,42 @@
 var The8ListCtrl = function($scope,$location,$http) {
-  $scope.filterOptions = {
-    filterText: ''
-  };
-
-  var addBasicOptions = function(data,columnDefs) {
+  $scope.filterOptions = { filterText: ''};
+  var grid = function(data,colDef) {
+    var f = function(x){
+      var t = x.split('.');
+      return $scope[t[0]][t[1]];
+    };
     return { data: data,
              width: '100%',
              enableCellSelection: true,
-             enableRowSelection: true,
+             enableRowSelection: false,
              enableColumnResize:true,
-
              filterOptions: $scope.filterOptions,
-             columnDefs: columnDefs };
+             columnDefs: colDef };
   };
-
-  var selectJSON = function(o,k){
-    var t = {};
-    for (var i in k){
-      t[k[i]] = o[k[i]];
-    }
-    return t;
-  };
-  var mergeConferenceAndFile = function(conference, file){
-    for (var i in file){
-      if (file[i].field == "date"){
-        file.splice(i,1);
-        break;
+  var schema = function(def){
+    for (var i in def){
+      def[i].splice(1,0,{field:'department',displayName:'单位'});
+      for (var j in def[i]){
+        def[i][j].cellTemplate = ztds.template.cell;
       }
     }
-    return conference.concat(file);
-  };
-  var mergeConferenceAndFileData = function(conference, file){
 
-    var t = [];
-    for (var i = 0; i < conference.length; i++) {
-      var o = {};
-      $.extend(o,conference[i],file[i]);
-      t.push(o);
-    }
-
-    return t;
+    $scope.schema =  {
+      research: grid('the8.research',def.research),
+      outlay: grid('the8.outlay',def.outlay),
+      conference: grid('the8.conference',def.conference),
+      file: grid('the8.file',def.file)
+    };
   };
 
-  var ngGridColumnDef = function(field){
-    var cellTemplate = '<div style="border-bottom:1px solid rgb(212,212,212);" class="ngCellText"'+
-                     'ng-class="col.colIndex()"><span ng-cell-text>{{COL_FIELD}}</span></div>';
-    for (var i in field) {
-      field[i].cellTemplate = cellTemplate;
-    }
-    return field;
-  };
-
-
-  var setOptions = function(def){
-   // alert(JSON.stringify(def.fields.research));
-    def.fields.research.splice(1,0,{field:'department',displayName:'单位'});
-
-    $scope.researchOptions = addBasicOptions('research', ngGridColumnDef(def.fields.research));
-    $scope.outlayOptions = addBasicOptions('outlay', def.fields.outlay);
-    $scope.conferenceAndFileOptions =
-      addBasicOptions('conferenceAndFile', mergeConferenceAndFile(def.fields.conference, def.fields.file));
-  };
-  $.ajax({url:ztds.resource.the8Def,
+  $.ajax({url:ztds.resource.the8Schema,
           async:false,
-          success:setOptions});
+          success:schema});
+  //grid def end
 
-  var fillData = function(){
-    $http.get(ztds.resource.the8).success(function(result){
-      $scope.research  = result.research;
-      $scope.outlay = result.outlay;
-      $scope.conferenceAndFile = mergeConferenceAndFileData(result.conference,result.file);
-    });
-  };
-  fillData();
+  $http.get(ztds.resource.the8) .success(function(result){
+    $scope.the8 = result;
+  });
 };
 
 angular.module('The8ListCtrl',[]).controller('The8ListCtrl',The8ListCtrl);

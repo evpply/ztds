@@ -10,6 +10,12 @@
   :available-media-types ["application/json"]
   :handle-ok (the8/schema))
 
+(defresource the8-chart []
+  :allowed-methods [:get]
+  :available-charsets ["utf-8"]
+  :available-media-types ["application/json"]
+  :handle-ok (the8/chart-view))
+
 (defresource the8 [id]
   :allowed-methods [:post :get :delete :put]
   :available-charsets ["utf-8"]
@@ -43,4 +49,5 @@
     (ANY "/the8-schema" [] (the8-schema))
     (ANY "/the8" [] (the8 nil))
     (ANY "/the8/:id" [id] (the8 id))
+    (ANY "/the8-chart" [] (the8-chart))
     )))

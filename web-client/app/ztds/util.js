@@ -1,4 +1,4 @@
-//util.js
+'use strict';
 var removeEmpty = function(arr){
   var returnValue = [];
   for (var i in arr){
@@ -12,4 +12,9 @@ var selectJSON = function(o,k){
     t[k[i]] = o[k[i]];
   }
   return t;
+};
+
+var myGetMonth = function(date){
+  var o = new Date(date);
+  return o.getMonth() + 1;
 };

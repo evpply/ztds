@@ -9,7 +9,8 @@ var ztds = {
     base: ztdsBase.resource,
     user: ztdsBase.resource + '/current-user',
     the8: ztdsBase.resource + '/the8',
-    the8Schema: ztdsBase.resource + '/the8-schema'
+    the8Schema: ztdsBase.resource + '/the8-schema',
+    the8Chart: ztdsBase.resource + '/the8-chart'
   },
 
   template: {

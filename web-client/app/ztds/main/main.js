@@ -19,6 +19,8 @@ ztds.module.index.controller('IndexCtrl',function($scope,$location,breadcrumbs,$
     $scope.user = user;
   });
 
+  //
+  //
 
   $scope.breadcrumbs = breadcrumbs;
   $scope.navTreeHandler = function (branch) {

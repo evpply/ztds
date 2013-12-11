@@ -5,6 +5,7 @@
         [clojure.java.io :only [file reader]]
         [clojure.algo.generic.functor :only [fmap]])
   (:require [ztds.db :as db]
+            [ztds.entity.department :as department]
             [clj-time.core :as time :only [today]]))
 
 (defn schema []
@@ -163,39 +164,45 @@
                 :submitDate (str (time/today)))]
       (db/upsert "the8" doc))))
 
-;; (defn- query-all-1 []
-;;   (let [data (db/query "the8")]
-;;     (reduce #(merge-with concat %1 %2)
-;;             (map (fn [x]
-;;                    (fmap (fn [y] (map #(into % {:department (department-name (:_id x))}) y))
-;;                          (select-keys x [:research :outlay :file :conference])))
-;;                  data))))
+(defn- query-all-format [data]
+  (reduce #(merge-with concat %1 %2)
+            (map (fn [x]
+                   (fmap (fn [y] (map #(into % {:department (department/name (:_id x))}) y))
+                         (select-keys x [:research :outlay :file :conference])))
+                 data)))
 
 (defn query [id]
   (if (nil? id)
-    (db/query "the8")
-    (db/query-one "the8" id)))
+    (let [data (db/query "the8")]
+      (if (empty? data) nil
+          (query-all-format (db/query "the8"))))
+    (select-keys (db/query-one "the8" id) [:research :outlay :conference :file])))
 
-;; (defn collect-items [k]
+;; (defn- chart-view-item [k]
 ;;   (map (fn [x] (reduce (fn [y z] (merge-with #(if (number? %1) (+ %1 %2) %1) y z)) x))
 ;;        (map #(second %) (seq (group-by :date (apply concat (map #(k %) (db/query "the8"))))))))
 
-;; (defn collect []
-;;   (assoc {}
-;;     :outlay (collect-items :outlay)
-;;     :research (collect-items :research)
-;;     :conference (collect-items :conference)
-;;     :file (collect-items :file)))
+(defn- merge-1 [c]
+  (fmap (fn [x] (reduce (fn [y z] (merge-with #(if (number? %1) (+ %1 %2) %1) y z)) x)) c))
 
-;; (defn chart-data []
-;;   (map #(assoc {}
-;;           :date (:date %1)
-;;           :outlay (+ (:cars %1) (:accomCost %1) (:dinnerCost %1))
-;;           :file (:num %2)
-;;           :conference (+ (:normalConference %3) (:vedioConference %3))
-;;           )
-;;        (:outlay (collect))
-;;        (:file (collect))
-;;        (:conference (collect))
-;;        ))
-;;(chart-data)
+(defn- chart-view-item [k]
+  (map #(second %) (merge-1  (group-by :date (apply concat (map #(k %) (db/query "the8")))))))
+
+(defn- chart-view-collect []
+  (assoc {}
+    :outlay (chart-view-item :outlay)
+    :research (chart-view-item :research)
+    :conference (chart-view-item :conference)
+    :file (chart-view-item :file)))
+
+(defn chart-view []
+  (map #(assoc {}
+          :date (:date %1)
+          :outlay (+ (:cars %1) (:accomCost %1) (:dinnerCost %1) (:officeExpenses %1))
+          :file (:num %2)
+          :conference (+ (:normalConference %3) (:videoConference %3))
+          )
+       (:outlay (chart-view-collect))
+       (:file (chart-view-collect))
+       (:conference (chart-view-collect))
+       ))

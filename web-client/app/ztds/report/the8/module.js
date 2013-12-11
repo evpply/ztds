@@ -26,5 +26,5 @@ ztds.module.report.the8.config(function($routeProvider,$locationProvider){
     .when('/report/the8' + '/list',
           {controller: 'The8ListCtrl',
            templateUrl: ztds.template.report.the8.list,
-           label:'表格'});
+           label:'明细'});
 });

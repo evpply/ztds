@@ -46,7 +46,7 @@ var The8DetailCtrl = function($scope,$location,$http,$timeout) {
     };
   };
 
-  $scope.dateOptions = ['2013-12','2013-11','2013-10','2013-09','2013-08','2013-07','2013-06','2013-05',
+  $scope.dateOptions = ['','2013-12','2013-11','2013-10','2013-09','2013-08','2013-07','2013-06','2013-05',
                         '2013-04','2013-03','2013-02','2013-01',
                         '2012-12','2012-11','2012-10','2012-09','2012-08','2012-07','2012-06','2012-05',
                         '2012-04','2012-03','2012-02','2012-01'];
@@ -58,7 +58,7 @@ var The8DetailCtrl = function($scope,$location,$http,$timeout) {
 
   var fillData = function(){
     $http.get(ztds.resource.the8 + '/' + ztds.user.department) .success(function(result){
-      $scope.the8 = (result == false) ? {research: [], outlay: [], conference: [], file: []} : result;
+      $scope.the8 = ($.isEmptyObject(result)) ? {research: [], outlay: [], conference: [], file: []} : result;
 
       for (var i in $scope.the8){
           $scope.the8[i].push({});
@@ -73,25 +73,16 @@ var The8DetailCtrl = function($scope,$location,$http,$timeout) {
 
   $scope.save = function(){
     $('#the8DetailSubmit').prop('disabled', true);
-    var cfs = removeEmpty(this.conferenceAndFile);
 
-    var conference = [];
-    var file = [];
-    for (var i in cfs) {
-      conference.push(selectJSON(cfs[i],["date","normalConference","videoConference","peoples","duration","expenses"]));
-      file.push(selectJSON(cfs[i],["date","num","nLength","newFiles","abolishFiles"]));
+    for (var i in $scope.the8){
+      $scope.the8[i] = removeEmpty($scope.the8[i]);
     }
 
-    var data = {
-      id: ztds.user.department,//ztds.user.department,
-      research: removeEmpty(this.research),
-      outlay: removeEmpty(this.outlay),
-      conference:removeEmpty(conference),
-      file:removeEmpty(file)
-    };
+    $.extend($scope.the8, {_id: ztds.user.department});
 
-    $http.post(ztds.resource.the8, data)
+    $http.post(ztds.resource.the8, $scope.the8)
       .success(function(result){
+        fillData();
         $('#the8DetailSubmit').attr('class', 'btn btn-success');
         $timeout(function(){
           $('#the8DetailSubmit').removeAttr('disabled').attr('class', 'btn btn-primary');

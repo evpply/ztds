@@ -1,8 +1,16 @@
 .gridStyle {
     border: 1px solid rgb(212,212,212);
     width: 100%;
-    height:360px;
+    height:352tpx;
 }
+
+.h80 {
+    height:67%;
+}
+
+/* .tab-pane .active { */
+/*    height:100%; */
+/* } */
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,

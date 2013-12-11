@@ -39,4 +39,4 @@
 ;;   (not (nil? (db/query "user" {:_id name :password pass}))))
 
 (defn authenticated? [name pass]
-  (boolean (db/query "user" {:_id name :password pass})))
+  (not (empty?  (db/query "user" {:_id name :password pass}))))

@@ -1,9 +1,5 @@
 <!doctype html>
-<html xmlns:ng="http://angularjs.org" id="ng-app">
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,10 +8,9 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <!-- build:css(.tmp) styles/main.css -->
+    <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css"/>
-
     <link rel="styleSheet" href="ztds/main/main.css">
     <link rel="styleSheet" href="components/angular-bootstrap-nav-tree/dist/abn_tree.css">
     <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css">
@@ -25,25 +20,10 @@
     <!-- endbuild -->
   </head>
   <body ng-controller="IndexCtrl">
-    <!--[if lt IE 7]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <!--[if lt IE 9]>
+        <p class="browsehappy">您正在使用<strong>已经过时的</strong>浏览器,
+          <a href="http://154.28.16.213/browser/chrome.exe">点击下载Chrome浏览器</a></p>
         <![endif]-->
-
-    <!--[if lte IE 8]>
-        <script>
-          document.createElement('ng-include');
-          document.createElement('ng-pluralize');
-          document.createElement('ng-view');
-          document.createElement('abn-tree');
-          document.createElement('header');
-
-          // Optionally these for CSS
-          document.createElement('ng:include');
-          document.createElement('ng:pluralize');
-          document.createElement('ng:view');
-        </script>
-        <![endif]-->
-
 
     <!--[if lt IE 9]>
         <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -54,12 +34,12 @@
         <div class="navbar-header">
           <a href="../" class="navbar-brand">昭通地税纪检监察</a>
         </div>
-        <div class="nav navbar-nav navbar-right navbar-brand">{{user.departmentName}}|{{user.name}}</div>
+        <div class="nav navbar-nav navbar-right navbar-brand">{{user.departmentName}}</div>
       </div>
     </header>
 
-    <div class="container" style="width:100%">
-      <div class="col-xs-2" style="height:532px;background:whitesmoke;border:0 solid lightgray;border-radius:5px;">
+    <div class="container hmax" style="width:100%">
+      <div class="col-xs-2 hmax" style="background:whitesmoke;border:0 solid lightgray;border-radius:5px;">
         <div style="margin-top:5px;">
           <abn-tree tree-data="navTreeData"
                     icon-leaf="glyphicon glyphicon-file"
@@ -69,7 +49,7 @@
           </abn-tree>
         </div>
       </div>
-      <div class="col-xs-10">
+      <div class="col-xs-10 hmax">
         <div>
           <ol class="breadcrumb">
             <li ng-repeat="breadcrumb in breadcrumbs.getAll()">
@@ -78,15 +58,13 @@
             </li>
           </ol>
         </div>
-        <div ng-view></div>
+        <div ng-view class="hmax"></div>
       </div>
     </div>
 
-
+    <!-- build:js scripts/plugins.js -->
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-
-    <!-- build:js scripts/plugins.js -->
     <!-- <script src="bower_components/sass-bootstrap/js/affix.js"></script> -->
     <!-- <script src="bower_components/sass-bootstrap/js/alert.js"></script> -->
     <script src="bower_components/sass-bootstrap/js/button.js"></script>
@@ -117,10 +95,9 @@
     <script src="bower_components/select2/select2.js"></script>
     <script src="bower_components/angular-ui-select2/src/select2.js"></script>
     <script src="bower_components/angular-ui-date/src/date.js"></script>
-
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!-- build:js scripts/scripts.js -->
     <script src="ztds/main/ztds.js"></script>
     <script src="ztds/util.js"></script>
     <script src="ztds/report/the8/detail.js"></script>
