@@ -1,8 +1,6 @@
-var The8ChartCtrl = function($scope,$location,$http){
-  if(ztds.user.department != "ztds"){
-    $location.path('/report/the8/detail');
-  }
+'use strict';
 
+angular.module('The8ChartCtrl',[]).controller('The8ChartCtrl',['$scope','$location','$http',function The8ChartCtrl($scope,$location,$http){
   var myChart = function (date,outlay,file,conference){
     return {
       chart: {zoomType: 'xy',marginBottom: 65},
@@ -28,28 +26,33 @@ var The8ChartCtrl = function($scope,$location,$http){
                //{name: '2012年会议', color: '#AA4643', type: 'line',yAxis: 2, data:conferenceLast, dashStyle:'shortdot'}
               ]
     };
+
   };
 
-  $http.get(ztds.resource.the8Chart).success(function(data){
-    var month = [], file = [], outlay = [], conference = [];
+  //todo:modify
+  if(ztds.user.department != "ztds"){
+    $location.path('/report/the8/detail');
+  }
+  else{
+    $http.get(ztds.resource.the8Chart).success(function(data){
+      var month = [], file = [], outlay = [], conference = [];
 
-    var ds = data.sort(function(a, b) { return a.date > b.date;});
-    for(var i in ds){
-      var d = ds[i].date;
-      if (d >= "2013-01" && d <= "2013-12") {
-        month.push(d);
-        file.push(ds[i].file);
-        outlay.push(ds[i].outlay);
-        conference.push(ds[i].conference);
+      var ds = data.sort(function(a, b) { return a.date > b.date;});
+      for(var i in ds){
+        var d = ds[i].date;
+        if (d >= "2013-01" && d <= "2013-12") {
+          month.push(d);
+          file.push(ds[i].file);
+          outlay.push(ds[i].outlay);
+          conference.push(ds[i].conference);
+        }
       }
-    }
 
-    $('#lineCharts').highcharts(myChart(month,outlay,file,conference));
-  });
+      $('#lineCharts').highcharts(myChart(month,outlay,file,conference));
+    });
+  }
 
   $scope.toGrid = function(){
    $location.path('/report/the8/list');
   };
-};
-
-angular.module('The8ChartCtrl',[]).controller('The8ChartCtrl',The8ChartCtrl);
+}]);

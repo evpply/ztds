@@ -1,0 +1,31 @@
+html,body {
+    height:99%;
+    width:100%;
+    padding-top: 30px;
+}
+
+.z-nav-container {
+    background:whitesmoke;
+    border:0 solid lightgray;
+    border-radius:5px;
+}
+
+.z-nav-tree {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 100%;
+    height:352px;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+    color: #555555;
+    background-color: #eee;
+    cursor: default;
+    border-radius:0;
+}

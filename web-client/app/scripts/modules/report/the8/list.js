@@ -1,4 +1,7 @@
-var The8ListCtrl = function($scope,$location,$http) {
+'use strict';
+
+
+angular.module('The8ListCtrl',[]).controller('The8ListCtrl',['$scope','$location','$http',function The8ListCtrl($scope,$location,$http) {
   $scope.filterOptions = { filterText: ''};
   var grid = function(data,colDef) {
     var f = function(x){
@@ -37,6 +40,4 @@ var The8ListCtrl = function($scope,$location,$http) {
   $http.get(ztds.resource.the8) .success(function(result){
     $scope.the8 = result;
   });
-};
-
-angular.module('The8ListCtrl',[]).controller('The8ListCtrl',The8ListCtrl);
+}]);

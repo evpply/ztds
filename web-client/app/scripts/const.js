@@ -1,4 +1,4 @@
-//dependence:null
+'use strict';
 var ztdsBase = {
   resource: 'http://localhost/resource'
 };
@@ -14,12 +14,12 @@ var ztds = {
   },
 
   template: {
-    mainPage: 'ztds/main/main-page.html',
+    mainPage: 'views/index/main-page.html',
     report :{
       the8:{
-        chart: 'ztds/report/the8/chart.html',
-        detail:'ztds/report/the8/detail.html',
-        list : 'ztds/report/the8/list.html'
+        chart: 'views/report/the8/chart.html',
+        detail:'views/report/the8/detail.html',
+        list : 'views/report/the8/list.html'
       }
     },
     input: {
@@ -30,17 +30,26 @@ var ztds = {
     cell: '<div style="border-bottom:1px solid rgb(212,212,212);" class="ngCellText"'+
       'ng-class="col.colIndex()"><span ng-cell-text>{{COL_FIELD}}</span></div>'
   },
+
   module: {
     report:{
       the8:{}
-    }
+    },
+    index:{}
   },
+
   config: {
     navTree: [
       {
         label: '报表',
         children: [{url:'/report/the8', label: '八项规定'}]
+      },
+      {
+        label:'廉政风险防控',
+        children: [{url:'/risk-control/ztsj', label: '昭通市地方税务局'}]
       }
     ]
-  }
+  },
+
+  util:{}
 };

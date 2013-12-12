@@ -1,4 +1,7 @@
-var The8DetailCtrl = function($scope,$location,$http,$timeout) {
+'use strict';
+
+
+angular.module("The8DetailCtrl",[]).controller("The8DetailCtrl",['$scope','$location','$http','$timeout',function The8DetailCtrl($scope,$location,$http,$timeout) {
   //grid def start
   var grid = function(data,colDef) {
     var f = function(x){
@@ -96,6 +99,4 @@ var The8DetailCtrl = function($scope,$location,$http,$timeout) {
       });
   };
 
-};
-
-angular.module("The8DetailCtrl",[]).controller("The8DetailCtrl",The8DetailCtrl);
+}]);

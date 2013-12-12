@@ -167,7 +167,7 @@
 (defn- query-all-format [data]
   (reduce #(merge-with concat %1 %2)
             (map (fn [x]
-                   (fmap (fn [y] (map #(into % {:department (department/name (:_id x))}) y))
+                   (fmap (fn [y] (map #(into % {:department (department/dep-name (:_id x))}) y))
                          (select-keys x [:research :outlay :file :conference])))
                  data)))
 
