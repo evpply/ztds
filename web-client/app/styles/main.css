@@ -21,6 +21,12 @@ html,body {
     height:352px;
 }
 
+.gridStyle textarea {
+    width:200px;
+    height:50px;
+}
+
+
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus{

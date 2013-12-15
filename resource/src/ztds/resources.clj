@@ -2,7 +2,8 @@
   (:use [liberator.core :only [defresource]]
         [compojure.core :only [context ANY routes defroutes]])
   (:require [ztds.entity.user :as user]
-            [ztds.entity.the8 :as the8]))
+            [ztds.entity.the8 :as the8]
+            [ztds.entity.pj :as pj]))
 
 (defresource the8-schema []
   :allowed-methods [:get]
@@ -22,6 +23,13 @@
   :available-media-types ["application/json"]
   :handle-ok (the8/query id)
   :post! (the8/create))
+
+(defresource post-jurisdiction [id]
+  :allowed-methods [:post :get :delete :put]
+  :available-charsets ["utf-8"]
+  :available-media-types ["application/json"]
+  :handle-ok (pj/query id)
+  :post! (pj/create))
 
 ;; (defresource the8-export [id]
 ;;   :allowd-method [:get]
@@ -50,4 +58,5 @@
     (ANY "/the8" [] (the8 nil))
     (ANY "/the8/:id" [id] (the8 id))
     (ANY "/the8-chart" [] (the8-chart))
+    (ANY "/post-jurisdiction" [id] (post-jurisdiction id))
     )))

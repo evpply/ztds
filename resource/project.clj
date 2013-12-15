@@ -11,6 +11,7 @@
                  [org.clojure/data.codec "0.1.0"]
                  [org.clojure/algo.generic "0.1.1"]
                  [dk.ative/docjure "1.6.0"]
+                 [javax.servlet/servlet-api "2.5"]
                  ]
   :plugins [[lein-ring "0.8.8"]]
   :ring {:handler ztds.server/app}

@@ -1,6 +1,5 @@
 'use strict';
 
-
 angular.module('The8ListCtrl',[]).controller('The8ListCtrl',['$scope','$location','$http',function The8ListCtrl($scope,$location,$http) {
   $scope.filterOptions = { filterText: ''};
   var grid = function(data,colDef) {
