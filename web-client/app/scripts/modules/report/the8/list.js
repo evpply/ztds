@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('The8ListCtrl',[]).controller('The8ListCtrl',['$scope','$location','$http',function The8ListCtrl($scope,$location,$http) {
+  $('.gridStyle').css('height',ztds.device.height * 0.5);
+
   $scope.filterOptions = { filterText: ''};
   var grid = function(data,colDef) {
     var f = function(x){

@@ -37,7 +37,10 @@ angular.module('The8ChartCtrl',[]).controller('The8ChartCtrl',['$scope','$locati
     $http.get(ztds.resource.the8Chart).success(function(data){
       var month = [], file = [], outlay = [], conference = [];
 
-      var ds = data.sort(function(a, b) { return a.date > b.date;});
+      var ds = data.sort(function(a, b) {
+        return (a.date > b.date)? 1 : -1;
+      });
+
       for(var i in ds){
         var d = ds[i].date;
         if (d >= "2013-01" && d <= "2013-12") {
@@ -47,7 +50,6 @@ angular.module('The8ChartCtrl',[]).controller('The8ChartCtrl',['$scope','$locati
           conference.push(ds[i].conference);
         }
       }
-
       $('#lineCharts').highcharts(myChart(month,outlay,file,conference));
     });
   }

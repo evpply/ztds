@@ -1,8 +1,9 @@
 'use strict';
 
-
 angular.module("The8DetailCtrl",[]).controller("The8DetailCtrl",['$scope','$location','$http','$timeout',function The8DetailCtrl($scope,$location,$http,$timeout) {
   //grid def start
+
+  $('.gridStyle').css('height',ztds.device.height * 0.5);
   var grid = function(data,colDef) {
     var f = function(x){
       var t = x.split('.');

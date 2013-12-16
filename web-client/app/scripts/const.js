@@ -1,17 +1,20 @@
 'use strict';
 var ztdsBase = {
   resource: 'http://localhost/resource'
+  //resource: 'http://154.28.16.213/resource'
 };
 
 var ztds = {
   user:{},
+  device:{height:window.innerHeight},
   resource: {
     base: ztdsBase.resource,
     user: ztdsBase.resource + '/current-user',
     the8: ztdsBase.resource + '/the8',
     the8Schema: ztdsBase.resource + '/the8-schema',
     the8Chart: ztdsBase.resource + '/the8-chart',
-    pj:ztdsBase.resource + '/post-jurisdiction'
+    pj:ztdsBase.resource + '/post-jurisdiction',
+    dj:ztdsBase.resource + '/dep-jurisdiction'
   },
 
   template: {
@@ -26,6 +29,9 @@ var ztds = {
     riskControl: {
       pj: {
         list:'views/risk-control/post-jurisdiction/list.html'
+      },
+      dj: {
+        list:'views/risk-control/dep-jurisdiction/list.html'
       }
     },
     input: {
@@ -49,7 +55,7 @@ var ztds = {
       },
       {
         label:'廉政风险防控',
-        children: [{url:'/risk-control/department-jurisdiction', label: '部门职权'},
+        children: [{url:'/risk-control/dep-jurisdiction/list', label: '部门职权'},
                    {url:'/risk-control/post-jurisdiction/list', label: '岗位职权'}]
       }
     ]

@@ -198,7 +198,12 @@
 (defn chart-view []
   (map #(assoc {}
           :date (:date %1)
-          :outlay (+ (:cars %1) (:accomCost %1) (:dinnerCost %1) (:officeExpenses %1))
+          :outlay (read-string
+                   (format "%.2f"
+                             (double  (+ (:cars %1)
+                                   (:accomCost %1)
+                                   (:dinnerCost %1)
+                                   (:officeExpenses %1)))))
           :file (:num %2)
           :conference (+ (:normalConference %3) (:videoConference %3))
           )

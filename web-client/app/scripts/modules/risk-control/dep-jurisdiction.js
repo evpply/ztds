@@ -1,8 +1,8 @@
 'use strict';
-var pj = angular.module('pj', [ 'ngGrid', 'chieffancypants.loadingBar', 'ngRoute']);
+var dj = angular.module('dj', [ 'ngGrid', 'chieffancypants.loadingBar', 'ngRoute']);
 
-pj.controller('PjListCtrl',['$scope','$http',function($scope,$http){
-  $('.gridStyle').css('height',ztds.device.height * 0.5);
+dj.controller('DjListCtrl',['$scope','$http',function($scope,$http){
+  $('.gridStyle').css('height',ztds.device.height * 0.65);
 
   $scope.filterOptions = {
     filterText: '',
@@ -34,14 +34,14 @@ pj.controller('PjListCtrl',['$scope','$http',function($scope,$http){
   };
 }]);
 
-pj.config(['$routeProvider','$locationProvider',function($routeProvider,$locationProvider){
+dj.config(['$routeProvider','$locationProvider',function($routeProvider,$locationProvider){
     $routeProvider
     .when('/risk-control',{label:'廉政风险防控'})
-    .when('/risk-control/post-jurisdiction',{label:'岗位职权'})
-    .when('/risk-control/post-jurisdiction/list',
+    .when('/risk-control/dep-jurisdiction',{label:'部门职权'})
+    .when('/risk-control/dep-jurisdiction/list',
           {
-            controller: 'PjListCtrl',
-            templateUrl: ztds.template.riskControl.pj.list,
+            controller: 'DjListCtrl',
+            templateUrl: ztds.template.riskControl.dj.list,
             label:'汇总'
           });
 }]);
