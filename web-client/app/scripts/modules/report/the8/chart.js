@@ -38,7 +38,7 @@ angular.module('The8ChartCtrl',[]).controller('The8ChartCtrl',['$scope','$locati
       var month = [], file = [], outlay = [], conference = [];
 
       var ds = data.sort(function(a, b) {
-        return (a.date > b.date)? 1 : -1;
+        return (a.date >= b.date)? 1 : -1;
       });
 
       for(var i in ds){

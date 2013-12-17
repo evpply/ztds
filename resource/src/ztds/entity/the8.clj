@@ -195,19 +195,25 @@
     :conference (chart-view-item :conference)
     :file (chart-view-item :file)))
 
+
+(filter #(= (:date %) "2013-02")
+        (sort-by :date  (:conference  (chart-view-collect))))
+
 (defn chart-view []
+  (let [x (chart-view-collect)
+        s (fmap #(sort-by :date %) x)]
   (map #(assoc {}
           :date (:date %1)
           :outlay (read-string
                    (format "%.2f"
-                             (double  (+ (:cars %1)
-                                   (:accomCost %1)
-                                   (:dinnerCost %1)
-                                   (:officeExpenses %1)))))
+                           (double  (+ (:cars %1)
+                                       (:accomCost %1)
+                                       (:dinnerCost %1)
+                                       (:officeExpenses %1)))))
           :file (:num %2)
           :conference (+ (:normalConference %3) (:videoConference %3))
           )
-       (:outlay (chart-view-collect))
-       (:file (chart-view-collect))
-       (:conference (chart-view-collect))
-       ))
+       (:outlay s)
+       (:file s)
+       (:conference s)
+       )))

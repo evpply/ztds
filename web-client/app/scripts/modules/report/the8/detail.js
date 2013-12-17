@@ -65,7 +65,10 @@ angular.module("The8DetailCtrl",[]).controller("The8DetailCtrl",['$scope','$loca
       $scope.the8 = ($.isEmptyObject(result)) ? {research: [], outlay: [], conference: [], file: []} : result;
 
       for (var i in $scope.the8){
-          $scope.the8[i].push({});
+        $scope.the8[i].sort(function(a, b) {
+          return (a.date >= b.date)? 1 : -1;
+        });
+        $scope.the8[i].push({});
       }
     });
   };

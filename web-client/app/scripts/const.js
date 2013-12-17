@@ -1,7 +1,7 @@
 'use strict';
 var ztdsBase = {
-  resource: 'http://localhost/resource'
-  //resource: 'http://154.28.16.213/resource'
+  //resource: 'http://localhost/resource'
+  resource: 'http://154.28.16.213/resource'
 };
 
 var ztds = {
