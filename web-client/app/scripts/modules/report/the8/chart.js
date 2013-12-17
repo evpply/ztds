@@ -2,8 +2,11 @@
 
 angular.module('The8ChartCtrl',[]).controller('The8ChartCtrl',['$scope','$location','$http',function The8ChartCtrl($scope,$location,$http){
   var myChart = function (date,outlay,file,conference){
+
+
     return {
-      chart: {zoomType: 'xy',marginBottom: 65},
+      chart: {zoomType: 'xy',marginBottom: 65,style:{ // fontFamily:'"Microsoft YaHei"',
+                                                      fontSize:'16px'}},
       title: {text: '昭通市地方税务局落实“八项规定”情况'},
       xAxis: [{categories:date}],
       yAxis: [
@@ -50,7 +53,18 @@ angular.module('The8ChartCtrl',[]).controller('The8ChartCtrl',['$scope','$locati
           conference.push(ds[i].conference);
         }
       }
-      $('#lineCharts').highcharts(myChart(month,outlay,file,conference));
+
+      $(function(){
+        Highcharts.setOptions({
+          chart: {
+            style: {
+              fontFamily: 'Microsoft YaHei'
+            }
+          }
+        });
+
+        $('#lineCharts').highcharts(myChart(month,outlay,file,conference));
+      });
     });
   }
 
