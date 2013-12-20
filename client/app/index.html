@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>纪检监察信息系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css">
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+    <link rel="styleSheet" href="components/angular-bootstrap-nav-tree/dist/abn_tree.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+</head>
+  <body >
+    <!--[if lt IE 9]>
+        <h3>本系统不支持您正在使用的浏览器,
+          <a href="http://154.28.16.213/browser/chrome.exe">点击下载Chrome浏览器</a></h3>
+        <![endif]-->
+    <!-- content start -->
+    <header class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="" class="navbar-brand">纪检监察信息系统</a>
+        </div>
+
+
+        <div class="navbar-collapse collapse authentication waiting-for-angular" ng-controller="LoginCtrl">
+
+          <div id="login-holder">
+            <form class="navbar-form navbar-right" role="form" ng-submit="submit()">
+              <div class="form-group">
+                <input type="text" placeholder="用户名" class="form-control" ng-model="username">
+              </div>
+              <div class="form-group">
+                <input type="password" placeholder="密码" class="form-control" ng-model="password">
+              </div>
+              <button type="submit" class="btn btn-success">登录</button>
+            </form>
+          </div>
+          <div id="login-success" class="navbar-right" ng-hide="hide">
+            <ul class="nav navbar-nav">
+              <li><a>{{user.org}}</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.name}}<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#" ng-click="manage()">管理</a></li>
+                  <li><a href="#" ng-click="cancel()">退出</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <div class="container" style="width:100%">
+      <!-- nav tree -->
+      <!-- <div class="col-md-2 z-nav-container"> -->
+      <!--   <div class="z-nav-tree"> -->
+      <!--     <abn-tree tree-data="navTreeData" -->
+      <!--               icon-leaf="glyphicon glyphicon-file" -->
+      <!--               on-select="navTreeHandler(branch)" -->
+      <!--               expand-level="2" -->
+      <!--               initial-selection=""> -->
+      <!--     </abn-tree> -->
+      <!--   </div> -->
+      <!-- </div> -->
+
+      <div class="col-md-10">
+        <!-- <div> -->
+        <!--   <ol class="breadcrumb"> -->
+        <!--     <li ng-repeat="breadcrumb in breadcrumbs.getAll()"> -->
+        <!--       <a href="#{{breadcrumb.path}}" ng-hide="$last">{{breadcrumb.label}}</a> -->
+        <!--       <span ng-show="$last">{{breadcrumb.label}}</span> -->
+        <!--     </li> -->
+        <!--   </ol> -->
+        <!-- </div> -->
+
+        <div ng-view></div>
+
+      </div>
+    </div>
+    <!-- content end -->
+
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+
+    <!-- build:js scripts/plugins.js -->
+
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+    <script src="bower_components/ng-grid/build/ng-grid.js"></script>
+    <script src="bower_components/highcharts/highcharts.js"></script>
+    <script src="bower_components/highcharts/modules/exporting.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+
+    <script src="components/angular-breadcrumbs/angular-breadcrumbs.min.js"></script>
+    <script src="components/angular-bootstrap-nav-tree/dist/abn_tree_directive.js"></script>
+
+    <script src="bower_components/bootstrap/js/button.js"></script>
+    <script src="bower_components/bootstrap/js/tab.js"></script>
+    <script src="bower_components/bootstrap/js/dropdown.js"></script>
+
+    <script src="components/angular-http-auth/src/http-auth-interceptor.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/modules.js -->
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <!-- <script src="bower_components/angular-sanitize/angular-sanitize.js"></script> -->
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/const.js"></script>
+    <script src="scripts/util.js"></script>
+
+    <script src="scripts/modules/index.js"></script>
+    <script src="scripts/modules/report/indexes.js"></script>
+
+    <script src="scripts/bootstrap.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>
