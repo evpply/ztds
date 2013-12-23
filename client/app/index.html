@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-  <body >
+  <body ng-controller="IndexCtrl">
     <!--[if lt IE 9]>
         <h3>本系统不支持您正在使用的浏览器,
           <a href="http://154.28.16.213/browser/chrome.exe">点击下载Chrome浏览器</a></h3>
@@ -60,17 +60,16 @@
     </header>
 
     <div class="container" style="width:100%">
-      <!-- nav tree -->
-      <!-- <div class="col-md-2 z-nav-container"> -->
-      <!--   <div class="z-nav-tree"> -->
-      <!--     <abn-tree tree-data="navTreeData" -->
-      <!--               icon-leaf="glyphicon glyphicon-file" -->
-      <!--               on-select="navTreeHandler(branch)" -->
-      <!--               expand-level="2" -->
-      <!--               initial-selection=""> -->
-      <!--     </abn-tree> -->
-      <!--   </div> -->
-      <!-- </div> -->
+      <div class="col-md-2 z-nav-container">
+        <div class="z-nav-tree">
+          <abn-tree tree-data="navTreeData"
+                    icon-leaf="glyphicon glyphicon-file"
+                    on-select="navTreeHandler(branch)"
+                    expand-level="2"
+                    initial-selection="">
+          </abn-tree>
+        </div>
+      </div>
 
       <div class="col-md-10">
         <!-- <div> -->

@@ -24,6 +24,11 @@
 
 (defn login []
   (z-defresource {:post (user/login) :get "login ok"}))
+(defn indexes []
+  (z-defresource {:get "indexes"}))
+(defn authorities  [user]
+  (z-defresource {:get (user/get-authorities "ztsj008")}))
+
 
 ;; (defn schema [entity]
 ;;   (z-defresource {:get (get-entity-schema entity)}))
@@ -32,4 +37,6 @@
   (->
    (routes
     (ANY "/login" [] (login))
+    (ANY "/indexes" [] (indexes))
+    (ANY "/authorities/:id" [id] (authorities id))
     )))
