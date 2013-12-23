@@ -142,22 +142,20 @@
         })
 
         .controller('IndexCtrl', ['$scope','$location','$http','breadcrumbs', function($scope,$location,$http,breadcrumbs){
-            var traverse = function (o) {
-                for (var i in o) {
-                    if (o[i] )
-                    if (o[i] !== null && typeof(o[i])=="object") {
-                        //going on step down in the object tree!!
-                        traverse(o[i]);
-                    }
-                }
-            };
-
-            var genNavTree = function(config, data){
-
-            };
 
             $http.get(ztds.resources.authorities).success(function(result) {
+                function traverse(o) {
+                    for (var i in o) {
+                        if (o[i]["authority"] == "/test"){
+                            o.splice(i,1);
+                        }
 
+                        if (o[i] !== null && typeof(o[i])=="object") {
+                            traverse(o[i]);
+                        }
+                    }
+                }
+                traverse(ztds.navTree);
             });
 
             // $scope.breadcrumbs = breadcrumbs;
@@ -167,6 +165,7 @@
               if ((_ref = branch.data) != null ? _ref.description : void 0) {
                 return $scope.output += '(' + branch.data.description + ')';
               }
+                return null;
             };
             $scope.navTreeData = ztds.navTree;
         }])

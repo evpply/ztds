@@ -51,7 +51,6 @@ var ztds = {
                 {url:'/report/indexes',
                  label: '八项规定',
                  authority: '/indexes'},
-
                 {url:'/report/indexes',
                  label: 'test',
                  authority: '/test'}]
